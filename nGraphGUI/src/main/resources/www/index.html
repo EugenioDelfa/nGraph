@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+    <HEAD>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel='favicon' type='image/x-icon' href='static/favicon.ico' />
+        <link id="favicon" rel="icon" type="image/png" sizes="16x16" href="static/favicon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="static/favicon.png">
+        <TITLE>Apk nGraph</TITLE>
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="static/css/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+        <link type="text/css" rel="stylesheet" href="static/css/jquery.layout.css" />
+        <link type="text/css" rel="stylesheet" href="static/css/jquery-ui.css" />
+        <link type="text/css" rel="stylesheet" href="static/css/bootstrap-toggle.min.css" />
+        <link rel="stylesheet" href="static/css/cytoscape.js-panzoom.css" />
+        <link rel="stylesheet" href="static/css/cytoscape-context-menus.css" />
+        <link rel="stylesheet" href="static/css/cytoscape.js-navigator.css" />
+        <link type="text/css" rel="stylesheet" href="static/css/interface.css" />
+        <link type="text/css" rel="stylesheet" href="static/css/light.css" />
+    </HEAD>
+    <BODY>
+        <div class="ui-layout-center" id="outer_container">
+            <div class="ui-layout-west" id="properties_pane">
+                <div class="palete-list">
+                    <h4 class="list-title">Entities</h4>
+                    <ul class="list-group" id="Entities"></ul>
+                </div>
+                <div class="palete-list">
+                    <h4 class="list-title">Relationships</h4>
+                    <ul class="list-group" id="Relationships"> </ul>
+                </div>
+                <div class="palete-list">
+                    <h4 class="list-title">Totals</h4>
+                    <ul class="list-group" id="Totals"> </ul>
+                </div>
+            </div>
+
+            <div class="ui-layout-center" id="inner_container">
+                <div class="ui-layout-center" id="graph_pane">
+                    <div id="cy-graph">
+                        <div id = "alert_placeholder"></div>
+                    </div>
+                </div>
+                <div class="ui-layout-south" id="tabs_pane">
+                    <ul>
+                        <li><a href="#tabs-Query">Query</a></li>
+                        <li><a href="#tabs-Properties">Properties</a></li>
+                        <li><a href="#tabs-Code">Code</a></li>
+                    </ul>
+                    <div id="tabs-Query">
+                        <!-- Editor -->
+                        <a class="generic_button button_invoke">
+                        <span class="label">Query</span><i class="fa fa-plane"></i>
+                        </a>
+                        <div id="editor_query">MATCH p=(n:EntryPoint)-[r]-(m) RETURN nodes(p) as n, relationships(p) as r LIMIT 50;</div>
+                    </div>
+                    <div id="tabs-Properties">
+                        <div id="editor_props"></div>
+                    </div>
+                    <div id="tabs-Code">
+                        <div id="editor_code"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-layout-south" id="status_bar">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2 btn-group-xs" role="group" aria-label="First group">
+                <button type="button" class="btn btn-info" disabled>&nbsp;<i class='fa fa-stethoscope'></i>&nbsp;</button>
+                <button type="button" class="btn btn-info" id="cyLayout_BF" autofocus="true">&nbsp;Breath First&nbsp;</button>
+                <button type="button" class="btn btn-info" id="cyLayout_DG">&nbsp;Dagre&nbsp;</button>
+                <button type="button" class="btn btn-info" id="cyLayout_CC">&nbsp;Circle&nbsp;</button>
+                <button type="button" class="btn btn-info" id="cyLayout_KL">&nbsp;Klay&nbsp;</button>
+                <button type="button" class="btn btn-info" id="cyLayout_CO">&nbsp;Cose&nbsp;</button>
+              </div>
+              <div class="btn-group mr-2 btn-group-xs" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-info" disabled>&nbsp;<i class='fa fa-download'></i>&nbsp;</button>
+                <a type="button" class="btn btn-info" id="cyDownload_PNG">&nbsp;PNG&nbsp;</a>
+                <a type="button" class="btn btn-info" id="cyDownload_JPG">&nbsp;JPG&nbsp;</a>
+              </div>
+              <div class="btn-group mr-2 btn-group-xs" role="group" aria-label="Third group">
+                <a type="button" class="btn btn-info" id="cyClear">&nbsp;<i class='fa fa-refresh'></i>&nbsp;</a>
+              </div>
+              <div class="btn-group mr-2 btn-group-xs" role="group" aria-label="Forth group">
+                <input id="language" type="checkbox" checked data-toggle="toggle" data-size="mini"
+                       data-on="Cypher" data-off="Natural"
+                       data-onstyle="danger" data-offstyle="warning">&nbsp;&nbsp;    </input>
+              </div>
+            </div>
+        </div>
+
+        <!-- JQuery Related-->
+        <script type="text/javascript" src="static/js/jquery/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="static/js/jquery/jquery.base64.js"></script>
+        <script type="text/javascript" src="static/js/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="static/js/jquery/jquery.layout.js"></script>    
+        <script type="text/javascript" src="static/js/bootstrap-toggle.min.js"></script>    
+        <!-- Cytoscape Related-->
+        <script src="static/js/cytoscape/cytoscape.min.js"></script>
+        <script src="static/js/weaver.min.js"></script>
+        <script src="static/js/cytoscape/dagre.min.js"></script>
+        <script src="static/js/cytoscape/klay.js"></script>
+        <script src="static/js/cytoscape/cytoscape-dagre.js"></script>
+        <script src="static/js/cytoscape/cytoscape-klay.js"></script>
+        <script src="static/js/cytoscape/cytoscape-panzoom.js"></script>
+        <script src="static/js/cytoscape/cytoscape-context-menus.js"></script>
+        <!--<script src="static/js/cytoscape/cytoscape-navigator.js"></script>-->
+        <script src="static/js/cytoscape/cytoscape-view-utilities.js"></script>
+        <!-- ACE Editor Related --> 
+        <script src="static/js/ACE/ace.js"></script>
+        <script src="static/js/ACE/ext-language_tools.js"></script>
+        <script src="static/js/ACE/beautify.min.js"></script>
+        <!-- Generic purpouses -->
+        <script type="text/javascript" src="static/js/ResizeSensor.js"></script>
+        <!-- Interface initialization related -->
+        <script src="static/js/properties.js"></script>
+        <script src="static/js/functions.js"></script>
+        <script>
+            $(document).ready(function() {
+              setUILayoutsProperties();
+              neo4jConnect();
+              setupCyGraph();
+              setupTabsPane();
+              setupACEditor();
+              bindOptionsClick();
+            });
+        </script>
+    </BODY>
+</HTML>
