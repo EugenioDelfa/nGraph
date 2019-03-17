@@ -19,7 +19,7 @@ public class Constants {
         put("Literal", new String[] {"id:ID(Literal)", "value"});
         put("Extends", new String[] {":START_ID(Class)", ":END_ID(Class)"});
         put("Implements", new String[] {":START_ID(Class)", ":END_ID(Method)"});
-        put("Invokes", new String[] {":START_ID(Method)", ":END_ID(Method)"});
+        put("Calls", new String[] {":START_ID(Method)", ":END_ID(Method)"});
         put("Puts", new String[] {":START_ID(Method)", ":END_ID(Field)"});
         put("Gets", new String[] {":START_ID(Method)", ":END_ID(Field)"});
         put("Uses", new String[] {":START_ID(Method)", ":END_ID(Literal)"});

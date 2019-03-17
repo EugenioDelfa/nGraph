@@ -24,14 +24,14 @@ public class NEOManagement {
                 "--relationships:RETURNS", Paths.get(Constants.CSV_OUTPUT,  "Returns.csv" ).toString(),
                 "--relationships:IMPLEMENTS", Paths.get(Constants.CSV_OUTPUT,  "Implements.csv" ).toString(),
                 "--relationships:EXTENDS", Paths.get(Constants.CSV_OUTPUT,  "Extends.csv" ).toString(),
-                "--relationships:INVOKES", Paths.get(Constants.CSV_OUTPUT,  "Invokes.csv" ).toString(),
+                "--relationships:CALLS", Paths.get(Constants.CSV_OUTPUT,  "Calls.csv" ).toString(),
                 "--relationships:GETS", Paths.get(Constants.CSV_OUTPUT,  "Gets.csv" ).toString(),
                 "--relationships:PUTS", Paths.get(Constants.CSV_OUTPUT,  "Puts.csv" ).toString(),
                 "--relationships:USES", Paths.get(Constants.CSV_OUTPUT,  "Uses.csv" ).toString()
         };
         try {
             ProcessBuilderWrapper pbd = null;
-            pbd = new ProcessBuilderWrapper(new File("C:\\Windows\\Temp"), options);
+            pbd = new ProcessBuilderWrapper(new File(System.getProperty("java.io.tmpdir")), options);
             return true;
         } catch (Exception e) {
             return false;

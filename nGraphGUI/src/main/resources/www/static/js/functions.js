@@ -365,8 +365,6 @@ function neo4jCypherQuery(query) {
             }, 5000);
 
         }
-
-        console.log(data.status);
       }
   });
 }
@@ -419,6 +417,7 @@ function bindOptionsClick() {
     a.click();
   });
 
+  /*
   var staticWordCompleter = {
     getCompletions: function(editor, session, pos, prefix, callback) {
         var wordList;
@@ -554,6 +553,7 @@ function bindOptionsClick() {
       editor_query.completers = []
     }
   });
+  */
 
 }
 

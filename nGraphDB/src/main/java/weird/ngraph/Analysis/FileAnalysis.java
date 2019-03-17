@@ -153,7 +153,7 @@ public class FileAnalysis {
                             storage_csv.addRow(call_entity);
 
                             // Main class invokes relation to method call method->method
-                            Invokes invokes_relation = new Invokes(function_entity.id, call_entity.id);
+                            Calls invokes_relation = new Calls(function_entity.id, call_entity.id);
                             storage_csv.addRow(invokes_relation);
 
                             // Method call return parameter

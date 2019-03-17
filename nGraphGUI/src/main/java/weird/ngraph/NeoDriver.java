@@ -29,7 +29,11 @@ public class NeoDriver {
     public List<JSONObject> edges;
 
     public NeoDriver() {
-        this.driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "admin"));
+        try {
+            this.driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "admin"));
+        } catch (Exception e) {
+            this.driver = null;
+        }
         this.dups = new ArrayList<Long>();
         this.nodes = new ArrayList<JSONObject>();
         this.edges = new ArrayList<JSONObject>();
@@ -93,46 +97,52 @@ public class NeoDriver {
     }
 
     public void totals() {
-        try ( Session session = driver.session() )
-        {
-            StatementResult result = session.run("MATCH p=() RETURN count(nodes(p)) as r;");
-            while ( result.hasNext() )
+        if (this.driver != null) {
+            try ( Session session = driver.session() )
             {
-                Record record = result.next();
-                this.total_nodes = record.get( "r" ).asLong();
-            }
-            result = session.run("MATCH p=()-->() RETURN count(relationships(p)) as r;");
-            while ( result.hasNext() )
-            {
-                Record record = result.next();
-                this.total_edges = record.get( "r" ).asLong();
+                StatementResult result = session.run("MATCH p=() RETURN count(nodes(p)) as r;");
+                while ( result.hasNext() )
+                {
+                    Record record = result.next();
+                    this.total_nodes = record.get( "r" ).asLong();
+                }
+                result = session.run("MATCH p=()-->() RETURN count(relationships(p)) as r;");
+                while ( result.hasNext() )
+                {
+                    Record record = result.next();
+                    this.total_edges = record.get( "r" ).asLong();
+                }
             }
         }
     }
 
     public String query(String query) {
-        try ( Session session = driver.session() ) {
-            try {
-                StatementResult result = session.run(query);
-                while ( result.hasNext() )
-                {
-                    Record record = result.next();
-                    for (String key : record.keys()) {
-                        Value val = record.get(key);
-                        if (val instanceof  ListValue) {
-                            for (Value v : val.values()) {
-                                this.value(v);
+        if (this.driver != null) {
+            try ( Session session = driver.session() ) {
+                try {
+                    StatementResult result = session.run(query);
+                    while ( result.hasNext() )
+                    {
+                        Record record = result.next();
+                        for (String key : record.keys()) {
+                            Value val = record.get(key);
+                            if (val instanceof  ListValue) {
+                                for (Value v : val.values()) {
+                                    this.value(v);
+                                }
+                            } else {
+                                this.value(val);
                             }
-                        } else {
-                            this.value(val);
                         }
                     }
+                    return "";
+                } catch (org.neo4j.driver.v1.exceptions.ClientException ex) {
+                    return ex.getMessage();
                 }
-            } catch (org.neo4j.driver.v1.exceptions.ClientException ex) {
-                return ex.getMessage();
             }
+        } else {
+            return "Neo4J Service Stopped!";
         }
-        return "";
     }
 
     public void close() {

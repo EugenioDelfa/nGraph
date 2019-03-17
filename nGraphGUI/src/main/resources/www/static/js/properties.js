@@ -110,20 +110,11 @@ var CyDomainStyle = {
 /*****************************/
 // Cytoscape Layouts properties
 var CyLayouts = [
-  /*
-  { name: 'breadthfirst', fit: true },
-  { name: 'dagre', rankDir: 'TB', rankSep: 200, nodeDimensionsIncludeLabels: true },
-  { name: 'circle' },
-  { name: 'klay', klay : {nodeLayering: 'LONGEST_PATH', fixedAlignment: 'BALANCED', spacing: 100} },
-  { name: 'cose', minDist: 10, animate: true }
-  */
-
   { name: 'breadthfirst'},
   { name: 'dagre'},
   { name: 'circle' },
   { name: 'klay'},
   { name: 'cose'}
-
 ];
 
 /*******************************/
